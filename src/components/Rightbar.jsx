@@ -1,118 +1,52 @@
-import React, { useState } from 'react'
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import GroupIcon from '@mui/icons-material/Group';
-import { Avatar, IconButton } from '@mui/material';
-import { Bloodtype, EventAvailableTwoTone, ExpandMore, Favorite, FlagCircleOutlined, GroupOutlined, StoreOutlined, VideoCallOutlined, VideoCameraBack } from '@mui/icons-material';
+import { Menu, Search, SearchOff, VideoCallSharp } from '@mui/icons-material'
+import { Avatar, Box, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem, Typography } from '@mui/material'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+
 function Rightbar() {
-    const [showMore, setShowMore] = useState(false)
-    const handleShowMore = () => {
-        setShowMore(!showMore)
-    }
-    const showMoreItems = (
-        <>
-            <ListItem >
-                <ListItemButton>
-                    <ListItemIcon>
-                        <EventAvailableTwoTone sx={{ color: '#40ce63' }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Events" />
-                </ListItemButton>
-            </ListItem>
-            <ListItem >
-                <ListItemButton>
-                    <ListItemIcon>
-                        <FlagCircleOutlined sx={{ color: '#e92c4c' }} />
-                    </ListItemIcon>
-                    <Bloodtype primary="Blood Donation" />
-                </ListItemButton>
-            </ListItem>
-            <ListItem >
-                <ListItemButton>
-                    <ListItemIcon>
-                        <Favorite sx={{ color: '#f6c23b' }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Favorite" />
-                </ListItemButton>
-            </ListItem>
-            <ListItem >
-                <ListItemButton>
-                    <ListItemIcon>
-                        <VideoCameraBack sx={{ color: '#e82949' }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Live video" />
-                </ListItemButton>
-            </ListItem>
-        </>
-    )
+    const users = useSelector(store => store.users).usersArr
+    const user = useSelector(store => store.access).user.user
+    const foundUser = users.find(element => element.displayName == user.displayName && element.email == user.email)
+    const usersList = users.filter(user => user !== foundUser)
     return (
-        <List
-            sx={{ width: '100%', boxShadow: '0px 0px 5px #000', height: '100vh', overflowY: 'auto' }}
-            aria-label="contacts"
-        >
-            <ListItem sx={{ paddingTop: '30px' }}>
-                <ListItemButton>
-                    <ListItemIcon>
-                        <IconButton sx={{ p: 0 }}>
-                            <Avatar alt="Remy Sharp" src="https://img.freepik.com/free-photo/adorable-pomeranian-spitz-dog-sitting-wooden-bench-beach_181624-38855.jpg?w=2000" />
-                        </IconButton>
-                    </ListItemIcon>
-                    <ListItemText primary="DungHQ21" />
-                </ListItemButton>
-            </ListItem>
-            <ListItem >
-                <ListItemButton>
-                    <ListItemIcon>
-                        <GroupIcon sx={{ color: '#4fd4c3' }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Friends" />
-                </ListItemButton>
-            </ListItem>
-            <ListItem >
-                <ListItemButton>
-                    <ListItemIcon>
-                        <FlagCircleOutlined sx={{ color: '#4fd4c3' }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Pages" />
-                </ListItemButton>
-            </ListItem>
-            <ListItem >
-                <ListItemButton>
-                    <ListItemIcon>
-                        <GroupOutlined sx={{ color: '#197ff4' }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Groups" />
-                </ListItemButton>
-            </ListItem>
-            <ListItem >
-                <ListItemButton>
-                    <ListItemIcon>
-                        <StoreOutlined sx={{ color: '#ef405e' }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Marketplace" />
-                </ListItemButton>
-            </ListItem>
-            <ListItem >
-                <ListItemButton>
-                    <ListItemIcon>
-                        <VideoCallOutlined sx={{ color: '#1879f2' }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Watch" />
-                </ListItemButton>
-            </ListItem>
-            <ListItem onClick={handleShowMore}>
-                <ListItemButton>
-                    <ListItemIcon>
-                        <ExpandMore sx={{ color: '#1879f2' }} />
-                    </ListItemIcon>
-                    <ListItemText primary={showMore ? 'Hide away' : 'Show more'} />
-                </ListItemButton>
-            </ListItem>
-            {showMore ? showMoreItems : ''}
-        </List>
+        <Box sx={{ width: '100%', height: '100vh', overflowY: 'auto', paddingTop: '30px' }}>
+            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
+                <Typography variant='h6'>
+                    Friend Request
+                </Typography>
+                <Typography variant='h6' sx={{ cursor: 'pointer', color: 'blue' }}>
+                    Show All
+                </Typography>
+            </Box>
+            <Typography variant='h6' sx={{ textAlign: 'center', paddingBottom: '20px' }}>
+                No one
+            </Typography>
+            <hr />
+            <Box width='100%' sx={{ paddingTop: '20px' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', }}>
+                    <Typography variant='h6' sx={{ width: '50%' }}>Contact</Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-around', width: '50%' }}>
+                        <VideoCallSharp sx={{ cursor: 'pointer' }} />
+                        <Search sx={{ cursor: 'pointer' }} />
+                        <Menu sx={{ cursor: 'pointer' }} />
+                    </Box>
+                </Box>
+                <List sx={{ width: '100%' }}>
+
+                    {usersList.map((user) => (
+                        <Link key={user.uid} to={'/message'}>
+                            <ListItem  sx={{ width: '100%', padding: 0 }}>
+                                <ListItemButton sx={{ width: '100%' }}>
+                                    <Avatar alt="" src={user.photoURL} />
+                                    <ListItemText primary={user.displayName} />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
+                    ))}
+                </List>
+            </Box>
+        </Box>
     )
 }
 
