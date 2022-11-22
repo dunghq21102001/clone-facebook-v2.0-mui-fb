@@ -66,7 +66,7 @@ function MessageBox() {
                 {messages.map((mess, index) => (
                     <Box key={index} sx={mess.senderId === user.uid
                         ? { width: '100%', display: 'flex', justifyContent: 'flex-start', flexDirection: 'row-reverse', alignItems: 'flex-end', padding: '20px 0' }
-                        : { width: '100%', display: 'flex', justifyContent: 'flex-end', flexDirection: 'row-reverse', alignItems: 'flex-end', padding: '20px 0' }}>
+                        : { width: '100%', display: 'flex', justifyContent: 'flex-start', flexDirection: 'row', alignItems: 'flex-end', padding: '20px 0' }}>
                         <Avatar sx={{ margin: '0 20px' }} alt="Remy Sharp" src={mess.senderId === user.uid ? user.photoURL : chatsUser.user.photoURL} />
                         <Typography variant='h6'>
                             {mess.text}
